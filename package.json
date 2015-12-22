@@ -4,7 +4,7 @@
     "node": ">=0.12.0"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "redis-server | nodemon app.js",
     "start-local": "node app.js && cd app && gulp serve"
   },
   "devDependencies": {
@@ -15,7 +15,7 @@
     "eslint-plugin-angular": "~0.12.0",
     "estraverse": "~4.1.0",
     "gulp": "~3.9.0",
-    "gulp-angular-filesort": "^1.1.1",
+    "gulp-angular-filesort": "~1.1.1",
     "gulp-angular-templatecache": "~1.8.0",
     "gulp-autoprefixer": "~3.0.2",
     "gulp-eslint": "~1.0.0",
@@ -46,6 +46,7 @@
     "karma-phantomjs-launcher": "~0.2.1",
     "lodash": "~3.10.1",
     "main-bower-files": "~2.9.0",
+    "nodemon": "^1.8.1",
     "phantomjs": "~1.9.18",
     "uglify-save-license": "~0.4.1",
     "wiredep": "~2.2.2",
@@ -59,7 +60,9 @@
     "gulp-cssimport": "^2.1.1",
     "node-slack": "0.0.7",
     "node-uuid": "^1.4.7",
+    "redis": "^2.4.2",
     "request": "^2.55.0",
-    "serve-static": "^1.4.0"
+    "serve-static": "^1.4.0",
+    "uuid": "^2.0.1"
   }
 }
