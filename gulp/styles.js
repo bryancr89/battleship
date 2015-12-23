@@ -24,6 +24,7 @@ gulp.task('styles', function () {
     path.join('!' + conf.paths.src, '/app/index.less')
   ], { read: false });
 
+
   var injectOptions = {
     transform: function(filePath) {
       filePath = filePath.replace(conf.paths.src + '/app/', '');

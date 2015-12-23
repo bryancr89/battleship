@@ -1,39 +1,85 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  angular
-    .module('client')
-    .controller('MainController', MainController);
+    angular
+        .module('battleshipApp')
+        .controller('MainController', MainController);
 
-  /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
-    var vm = this;
+    /** @ngInject */
+    function MainController(GameFactory) {
+        var vm = this;
+        vm.game = null;
+        vm.gameStarted = false;
+        vm.playerName = '';
+        vm.maxShipsToAllocate = 0;
 
-    vm.awesomeThings = [];
-    vm.classAnimation = '';
-    vm.creationDate = 1450755380710;
-    vm.showToastr = showToastr;
+        vm.isGameFinished = function isGameFinished() {
+            return vm.game && (vm.game.computerShips === 0 || vm.game.playerShips === 0);
+        };
 
-    activate();
+        vm.getWinner = function getWinner() {
+            var winner = '';
+            if (vm.game.computerShips === 0) {
+                winner = vm.playerName;
+            } else {
+                winner = 'Computer';
+            }
+            return winner + ' is the winner';
+        };
 
-    function activate() {
-      getWebDevTec();
-      $timeout(function() {
-        vm.classAnimation = 'rubberBand';
-      }, 4000);
+        vm.canPlaceShips = function canPlaceShips(cell) {
+            return cell.isAvailable && (vm.maxShipsToAllocate > 0);
+        };
+
+        vm.placeShips = function placeShips(cell) {
+            if (vm.canPlaceShips(cell)) {
+                cell.isAvailable = false;
+                vm.maxShipsToAllocate--;
+            }
+            if (vm.maxShipsToAllocate === 0) {
+                GameFactory.updateGame(vm.game);
+            }
+        };
+
+        function updateGame(game) {
+            return vm.game = game;
+        }
+
+        vm.attackShips = function attackShips(cell) {
+            var attackPosition = vm.game.playerShotsBoard[cell.x][cell.y];
+            if (vm.game.playerTurn && attackPosition.isAvailable) {
+                GameFactory
+                    .play(vm.game.id, {
+                        x: cell.x,
+                        y: cell.y
+                    })
+                    .then(updateGame)
+                    .then(function () {
+                        if(vm.isGameFinished()) {
+                            vm.game.endDate = new Date();
+                            return GameFactory.updateGame(vm.game);
+                        }
+                        return GameFactory
+                            .askComputerToPlay(vm.game.id)
+                            .then(updateGame);
+                    });
+            }
+        };
+
+        vm.startGame = function startGame() {
+            vm.gameStarted = true;
+            GameFactory
+                .createGame(vm.playerName)
+                .then(updateGame)
+                .then(function(game) {
+                    vm.maxShipsToAllocate = game.playerShips;
+                });
+        };
+
+        vm.playAgain = function playAgain() {
+            vm.game = null;
+            vm.gameStarted = false;
+            vm.startGame();
+        };
     }
-
-    function showToastr() {
-      toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-      vm.classAnimation = '';
-    }
-
-    function getWebDevTec() {
-      vm.awesomeThings = webDevTec.getTec();
-
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
-        awesomeThing.rank = Math.random();
-      });
-    }
-  }
 })();

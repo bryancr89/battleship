@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="client">
+<html ng-app="battleshipApp">
   <head>
     <meta charset="utf-8">
     <title>client</title>
@@ -23,8 +23,15 @@
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Battleship Game</a>
+            </div>
+        </div>
+    </nav>
 
-    <div ui-view></div>
+    <div ui-view class="ui-view-container"></div>
 
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->

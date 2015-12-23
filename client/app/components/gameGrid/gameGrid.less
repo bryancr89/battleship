@@ -1,0 +1,43 @@
+game-grid {
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        li {
+            border: 1px solid #CCC;
+            cursor: pointer;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            &.isAvailable {
+                background: none;
+            }
+        }
+    }
+
+    &.board-ships {
+        .is-not-available {
+            background: url("/assets/images/boat.png") center center no-repeat;
+        }
+        .is-down {
+            background: url("/assets/images/boat-hit.png") center center no-repeat;
+        }
+        .is-missed {
+            background: url("/assets/images/shot-missed.png") center center no-repeat;
+        }
+    }
+    &.board-shots {
+        .is-not-available {
+            background: url("/assets/images/shot-missed.png") center center no-repeat;
+        }
+        .is-down {
+            background: url("/assets/images/shot-hit.png") center center no-repeat;
+        }
+    }
+
+    &.board-ships, &.board-shots {
+        .is-not-available, .is-down, .is-missed {
+            background-size: 50px 50px;
+        }
+    }
+}

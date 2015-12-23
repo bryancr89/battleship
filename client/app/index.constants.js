@@ -3,8 +3,6 @@
   'use strict';
 
   angular
-    .module('client')
-    .constant('malarkey', malarkey)
-    .constant('moment', moment);
+    .module('battleshipApp');
 
 })();

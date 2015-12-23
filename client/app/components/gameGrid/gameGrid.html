@@ -1,0 +1,9 @@
+<div>
+    <h3>{{gameGrid.title}}</h3>
+    <ul ng-repeat="x in gameGrid.grid">
+        <li ng-repeat="y in x track by $index"
+            ng-class="gameGrid.getStyles(y)"
+            ng-click="gameGrid.cellClickHandler(y)">
+        </li>
+    </ul>
+</div>

@@ -1,34 +1,48 @@
-<div layout="vertical" layout-fill>
+<div class="container">
+    <div class="game">
+        <div>
 
-  <md-content>
-    <header>
-      <acme-navbar creation-date="main.creationDate"></acme-navbar>
-    </header>
-
-    <section class="jumbotron">
-      <h1>'Allo, 'Allo!</h1>
-      <p class="lead">
-        <img src="assets/images/yeoman.png" alt="I'm Yeoman"><br>
-        Always a pleasure scaffolding your apps.
-      </p>
-      <md-button class="md-raised animated infinite" ng-class="main.classAnimation" ng-click="main.showToastr()">Splendid Toastr</md-button>
-      <p>
-        With ♥ thanks to the contributions of<acme-malarkey extra-values="['Yeoman', 'Gulp', 'Angular']"></acme-malarkey>
-      </p>
-    </section>
-
-    <div class="techs" layout-align="center">
-      <md-card ng-repeat="awesomeThing in main.awesomeThings | orderBy:'rank'">
-        <md-card-content>
-          <img class="pull-right" ng-src="assets/images/{{ awesomeThing.logo }}" alt="{{ awesomeThing.title }}">
-          <h3 class="md-title">{{ awesomeThing.title }}</h3>
-          <p>{{ awesomeThing.description }}</p>
-        </md-card-content>
-        <div class="md-action-buttons">
-          <md-button ng-href="{{ awesomeThing.url }}">Website</md-button>
         </div>
-      </md-card>
-    </div>
-  </md-content>
 
+        <br>
+
+        <form class="form-inline">
+            <div class="form-group">
+                <input class="form-control"
+                       ng-model="main.playerName"
+                       placeholder="What's your name?">
+            </div>
+            <button class="btn btn-primary"
+                    ng-disabled="main.playerName.length === 0"
+                    ng-click="main.startGame()">
+                Start
+            </button>
+        </form>
+        <hr>
+        <div class="inital-state" ng-if="!main.gameStarted">
+            <img src="assets/images/battleship.png">
+        </div>
+        <div ng-if="main.gameStarted">
+            <game-grid class="board-ships"
+                       grid="main.game.playerShipsBoard"
+                       title="Your ships"
+                       cell-click-handler="main.placeShips">
+            </game-grid>
+            <div class="controls">
+                <h3>
+                    Turn: {{main.game.playerTurn ? 'Player' : 'Computer'}}
+                </h3>
+                <div ng-if="main.isGameFinished()">
+                    {{main.getWinner()}}
+                    <button ng-click="main.playAgain()">Play Again</button>
+                </div>
+            </div>
+            <game-grid class="board-shots"
+                       grid="main.game.playerShotsBoard"
+                       title="Your shots"
+                       cell-click-handler="main.attackShips">
+            </game-grid>
+        </div>
+
+    </div>
 </div>

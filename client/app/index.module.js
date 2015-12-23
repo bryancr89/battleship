@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('client', ['ui.router', 'ngMaterial', 'toastr']);
+    .module('battleshipApp', ['ui.router']);
 
 })();
