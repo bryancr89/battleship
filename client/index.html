@@ -2,18 +2,18 @@
 <html ng-app="battleshipApp">
   <head>
     <meta charset="utf-8">
-    <title>client</title>
+    <title>BattleShip Game</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+    <!-- build:css({client/.tmp/serve,client}) styles/vendor.css -->
     <!-- bower:css -->
     <!-- run `gulp inject` to automatically populate bower styles dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:css({.tmp/serve,src}) styles/app.css -->
+    <!-- build:css({client/.tmp/serve/app,client}) styles/app.css -->
     <!-- inject:css -->
     <!-- css files will be automatically insert here -->
     <!-- endinject -->
@@ -33,13 +33,13 @@
 
     <div ui-view class="ui-view-container"></div>
 
-    <!-- build:js(src) scripts/vendor.js -->
+    <!-- build:js(client) scripts/vendor.js -->
     <!-- bower:js -->
     <!-- run `gulp inject` to automatically populate bower script dependencies -->
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+    <!-- build:js({client/.tmp/serve,client/.tmp/partials,client}) scripts/app.js -->
     <!-- inject:js -->
     <!-- js files will be automatically insert here -->
     <!-- endinject -->

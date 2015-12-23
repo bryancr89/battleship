@@ -1,23 +1,25 @@
 <div class="container">
     <div class="game">
-        <div>
-
+        <div ng-switch="main.gameStarted">
+            <h3 ng-switch-when="true" class="text-left">
+                Player Name: {{main.playerName}}
+            </h3>
+            <form class="form-inline" ng-switch-default="">
+                <div class="form-group">
+                    <input autofocus="true"
+                           class="player-name"
+                           ng-model="main.playerName"
+                           placeholder="What's your name?">
+                </div>
+                <button class="btn btn-primary"
+                        ng-disabled="main.playerName.length === 0"
+                        ng-click="main.startGame()">
+                    Start
+                </button>
+            </form>
         </div>
 
-        <br>
 
-        <form class="form-inline">
-            <div class="form-group">
-                <input class="form-control"
-                       ng-model="main.playerName"
-                       placeholder="What's your name?">
-            </div>
-            <button class="btn btn-primary"
-                    ng-disabled="main.playerName.length === 0"
-                    ng-click="main.startGame()">
-                Start
-            </button>
-        </form>
         <hr>
         <div class="inital-state" ng-if="!main.gameStarted">
             <img src="assets/images/battleship.png">
@@ -28,16 +30,23 @@
                        title="Your ships"
                        cell-click-handler="main.placeShips">
             </game-grid>
-            <div class="controls">
-                <h3>
-                    Turn: {{main.game.playerTurn ? 'Player' : 'Computer'}}
+            <div class="controls" ng-switch="main.canAllocateShips()">
+
+                <h3 ng-switch-when="true">
+                    Set your ships my friend
                 </h3>
-                <div ng-if="main.isGameFinished()">
-                    {{main.getWinner()}}
-                    <button ng-click="main.playAgain()">Play Again</button>
+                <div ng-switch-default="">
+                    <h3 ng-if="!main.isGameFinished()">
+                        {{main.game.playerTurn ? "Player's turn" : "Computer's turn"}}
+                    </h3>
+                    <div ng-if="main.isGameFinished()">
+                        <h4>{{main.getWinner()}}</h4>
+                        <button ng-click="main.playAgain()">Play Again</button>
+                    </div>
                 </div>
             </div>
             <game-grid class="board-shots"
+                       ng-class="{'disabled': main.canAllocateShips()}"
                        grid="main.game.playerShotsBoard"
                        title="Your shots"
                        cell-click-handler="main.attackShips">

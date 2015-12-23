@@ -27,8 +27,12 @@
             return winner + ' is the winner';
         };
 
+        vm.canAllocateShips = function canAllocateShips() {
+            return vm.maxShipsToAllocate > 0;
+        };
+
         vm.canPlaceShips = function canPlaceShips(cell) {
-            return cell.isAvailable && (vm.maxShipsToAllocate > 0);
+            return cell.isAvailable && vm.canAllocateShips();
         };
 
         vm.placeShips = function placeShips(cell) {
@@ -44,10 +48,13 @@
         function updateGame(game) {
             return vm.game = game;
         }
+        vm.canPlay = function canPlay(attackPosition) {
+            return vm.game.playerTurn && attackPosition.isAvailable && !vm.canAllocateShips();
+        };
 
         vm.attackShips = function attackShips(cell) {
             var attackPosition = vm.game.playerShotsBoard[cell.x][cell.y];
-            if (vm.game.playerTurn && attackPosition.isAvailable) {
+            if (vm.canPlay(attackPosition)) {
                 GameFactory
                     .play(vm.game.id, {
                         x: cell.x,
