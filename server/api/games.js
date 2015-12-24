@@ -4,7 +4,7 @@ var redis = require('redis');
 var _ = require('underscore');
 var Q = require('q');
 
-var client = redis.createClient();
+var client = redis.createClient(process.env.REDIS_URL);
 var config = require('../config');
 var gameLogic = require('../logic/game');
 
