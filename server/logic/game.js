@@ -4,7 +4,7 @@ var Game = require('../models/game');
 var utils = require('../utils');
 
 var GRID_SIZE = 5;
-var INITIAL_SHIPS = 5;
+var INITIAL_SHIPS = 10;
 
 function createGameBoard() {
     var grid = [];
@@ -91,7 +91,8 @@ function create(playerName) {
             playerShipsBoard: utils.clone(boardGame),
             playerShotsBoard: utils.clone(boardGame),
             computerShipsBoard: computerInitialShips,
-            computerShotsBoard: utils.clone(boardGame)
+            computerShotsBoard: utils.clone(boardGame),
+            initialShips: INITIAL_SHIPS
         });
     return game;
 }

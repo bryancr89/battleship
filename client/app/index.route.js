@@ -16,7 +16,7 @@
             })
             .state('leaderBoard', {
                 url: '/leaderBoard',
-                templateUrl: 'app/leaderBoard/leaderBoard.html',
+                templateUrl: 'app/leaderboard/leaderboard.html',
                 controller: 'LeaderBoardController',
                 controllerAs: 'leaderBoard'
             });

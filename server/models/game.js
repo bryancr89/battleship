@@ -8,8 +8,8 @@ function Games(options) {
     this.computerShotsBoard = options.computerShotsBoard;
     this.status = config.status.inProgress;
     this.playerTurn = options.playerTurn || true;
-    this.playerShips = options.playerShips || 5;
-    this.computerShips = options.computerShips || 5;
+    this.playerShips = options.playerShips || options.initialShips;
+    this.computerShips = options.computerShips || options.initialShips;
     this.isPlayerWinner = config.isPlayerWinner;
     this.startDate = options.startDate || new Date();
     this.endDate = options.endDate || null;
