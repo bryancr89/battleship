@@ -5,8 +5,8 @@
   },
   "main": "app.js",
   "scripts": {
-    "start": " gulp serve | nodemon app.js",
-    "start-local": "node app.js && cd app && gulp serve"
+    "start": "nodemon app.js",
+    "start-local": "gulp serve | nodemon app.js"
   },
   "devDependencies": {
     "browser-sync": "~2.9.11",
