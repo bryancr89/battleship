@@ -51,11 +51,10 @@ function getAllGames(keys) {
     return promises;
 }
 
-
 function getGamesPlayerWin(games) {
     return games.filter(function(game) {
         return game.isPlayerWinner;
-    })
+    });
 }
 
 function getGames(games, size) {
@@ -91,9 +90,13 @@ router.get('/games/:id', function (req, res) {
 
 router.put('/games/:id', function (req, res) {
     var gameData = req.body;
-    console.log(gameData.endDate);
     client.set(gameData.id, JSON.stringify(gameData));
     res.send(gameData);
+});
+
+router.delete('/games/:id', function (req, res) {
+    client.del(req.params.id);
+    res.send({});
 });
 
 router.post('/games/:id/play', function (req, res) {

@@ -25,6 +25,12 @@
                 .then(cleanRequestHandler);
         }
 
+        function deleteGame(gameId) {
+            return $http
+                .delete(baseUrl + '/games/' + gameId)
+                .then(cleanRequestHandler);
+        }
+
         function updateGame(game) {
             return $http.put(baseUrl + '/games/' + game.id, game)
                 .then(cleanRequestHandler);
@@ -44,6 +50,7 @@
             askComputerToPlay: askComputerToPlay,
             play: play,
             createGame: createGame,
+            deleteGame: deleteGame,
             updateGame: updateGame,
             getGames: getGames
         }

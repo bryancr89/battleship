@@ -8,11 +8,14 @@
     /** @ngInject */
     function MainController(GameFactory) {
         var vm = this;
-        vm.game = null;
-        vm.gameStarted = false;
-        vm.isPlaceShipsEnabled = true;
-        vm.playerName = '';
-        vm.maxShipsToAllocate = 0;
+
+        function initialize() {
+            vm.game = null;
+            vm.gameStarted = false;
+            vm.isPlaceShipsEnabled = true;
+            vm.playerName = localStorage.getItem('playerName') || '';
+            vm.maxShipsToAllocate = 0;
+        }
 
         function updateGame(game) {
             return vm.game = game;
@@ -60,7 +63,6 @@
         vm.canPlaceShips = function canPlaceShips(cell) {
             return !vm.isGameFinished() && cell.isAvailable && vm.canAllocateShips();
         };
-
 
         vm.placeShips = function placeShips(cell) {
             if (vm.canPlaceShips(cell)) {
@@ -110,6 +112,7 @@
 
         vm.startGame = function startGame() {
             vm.gameStarted = true;
+            localStorage.setItem('playerName', vm.playerName);
             GameFactory
                 .createGame(vm.playerName)
                 .then(updateGame)
@@ -119,9 +122,10 @@
         };
 
         vm.playAgain = function playAgain() {
-            vm.game = null;
-            vm.gameStarted = false;
+            initialize();
             vm.startGame();
         };
+
+        initialize();
     }
 })();
