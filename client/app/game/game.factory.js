@@ -12,8 +12,8 @@
             return request.data;
         }
 
-        function getGameSettings() {
-            return $http.get(baseUrl + '/games/settings')
+        function askComputerToPlay(gameId) {
+            return $http.get(baseUrl + '/games/' + gameId + '/play')
                 .then(cleanRequestHandler);
         }
 
@@ -35,8 +35,8 @@
                 .then(cleanRequestHandler);
         }
 
-        function askComputerToPlay(gameId) {
-            return $http.get(baseUrl + '/games/' + gameId + '/play')
+        function getGames() {
+            return $http.get(baseUrl + '/games?size=' + 10)
                 .then(cleanRequestHandler);
         }
 
@@ -45,7 +45,7 @@
             play: play,
             createGame: createGame,
             updateGame: updateGame,
-            getGameSettings: getGameSettings
+            getGames: getGames
         }
     }
 })();

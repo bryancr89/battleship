@@ -10,7 +10,7 @@ function Games(options) {
     this.playerTurn = options.playerTurn || true;
     this.playerShips = options.playerShips || 5;
     this.computerShips = options.computerShips || 5;
-    this.winner = config.winner;
+    this.isPlayerWinner = config.isPlayerWinner;
     this.startDate = options.startDate || new Date();
     this.endDate = options.endDate || null;
 }

@@ -1,8 +1,8 @@
 /* global malarkey:false, moment:false */
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  angular
-    .module('battleshipApp');
-
+    angular
+        .module('battleshipApp')
+        .constant("moment", moment);
 })();

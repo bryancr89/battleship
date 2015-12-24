@@ -10,20 +10,46 @@
         var vm = this;
         vm.game = null;
         vm.gameStarted = false;
+        vm.isPlaceShipsEnabled = true;
         vm.playerName = '';
         vm.maxShipsToAllocate = 0;
+
+        function updateGame(game) {
+            return vm.game = game;
+        }
+
+        /**
+         * If the game is finished, update the game status.
+         * @returns Boolean
+         * */
+        function isWinnerPlayed() {
+            var gameFinished = vm.isGameFinished();
+            if (gameFinished) {
+                vm.game.endDate = new Date();
+                vm.game.isPlayerWinner = vm.isPlayerWinner();
+                return GameFactory.updateGame(vm.game)
+                    .then(function() {
+                        return gameFinished;
+                    });
+            }
+            return gameFinished;
+        }
+
+        function computerPlay(gameFinished) {
+            return gameFinished ? vm.game : GameFactory.askComputerToPlay(vm.game.id);
+        }
 
         vm.isGameFinished = function isGameFinished() {
             return vm.game && (vm.game.computerShips === 0 || vm.game.playerShips === 0);
         };
 
+        vm.isPlayerWinner = function isPlayerWinner() {
+            return vm.game.computerShips === 0;
+        };
+
         vm.getWinner = function getWinner() {
-            var winner = '';
-            if (vm.game.computerShips === 0) {
-                winner = vm.playerName;
-            } else {
-                winner = 'Computer';
-            }
+            var winner = vm.isPlayerWinner() ? vm.playerName : 'Computer';
+
             return winner + ' is the winner';
         };
 
@@ -32,26 +58,40 @@
         };
 
         vm.canPlaceShips = function canPlaceShips(cell) {
-            return cell.isAvailable && vm.canAllocateShips();
+            return !vm.isGameFinished() && cell.isAvailable && vm.canAllocateShips();
         };
+
 
         vm.placeShips = function placeShips(cell) {
             if (vm.canPlaceShips(cell)) {
                 cell.isAvailable = false;
                 vm.maxShipsToAllocate--;
             }
-            if (vm.maxShipsToAllocate === 0) {
+            if (vm.isPlaceShipsEnabled && vm.maxShipsToAllocate === 0) {
+                vm.isPlaceShipsEnabled = false;
                 GameFactory.updateGame(vm.game);
             }
         };
 
-        function updateGame(game) {
-            return vm.game = game;
-        }
+        /***
+         * Validate if the player can play or not.
+         * @attactPosition - Object that represent a cell of the board.
+         * @returns Boolean
+         */
         vm.canPlay = function canPlay(attackPosition) {
-            return vm.game.playerTurn && attackPosition.isAvailable && !vm.canAllocateShips();
+            return !(vm.isGameFinished() && vm.canAllocateShips()) && vm.game.playerTurn && attackPosition.isAvailable;
         };
 
+        /***
+         * Perform a player attack.
+         * Then update the game.
+         * Then validate if  the player won with the attack.
+         * Then ask the computer to play.
+         * Then update the game with the computer attack.
+         * Then validate again if  the computer won with the attack.
+         * @cell - Object that represent a cell of the shots board.
+         * @returns Boolean
+         */
         vm.attackShips = function attackShips(cell) {
             var attackPosition = vm.game.playerShotsBoard[cell.x][cell.y];
             if (vm.canPlay(attackPosition)) {
@@ -61,15 +101,10 @@
                         y: cell.y
                     })
                     .then(updateGame)
-                    .then(function () {
-                        if(vm.isGameFinished()) {
-                            vm.game.endDate = new Date();
-                            return GameFactory.updateGame(vm.game);
-                        }
-                        return GameFactory
-                            .askComputerToPlay(vm.game.id)
-                            .then(updateGame);
-                    });
+                    .then(isWinnerPlayed)
+                    .then(computerPlay)
+                    .then(updateGame)
+                    .then(isWinnerPlayed);
             }
         };
 
@@ -78,7 +113,7 @@
             GameFactory
                 .createGame(vm.playerName)
                 .then(updateGame)
-                .then(function(game) {
+                .then(function (game) {
                     vm.maxShipsToAllocate = game.playerShips;
                 });
         };

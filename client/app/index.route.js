@@ -1,21 +1,27 @@
-(function() {
-  'use strict';
+(function () {
+    'use strict';
 
-  angular
-    .module('battleshipApp')
-    .config(routerConfig);
+    angular
+        .module('battleshipApp')
+        .config(routerConfig);
 
-  /** @ngInject */
-  function routerConfig($stateProvider, $urlRouterProvider) {
-    $stateProvider
-      .state('home', {
-        url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainController',
-        controllerAs: 'main'
-      });
+    /** @ngInject */
+    function routerConfig($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('home', {
+                url: '/',
+                templateUrl: 'app/main/main.html',
+                controller: 'MainController',
+                controllerAs: 'main'
+            })
+            .state('leaderBoard', {
+                url: '/leaderBoard',
+                templateUrl: 'app/leaderBoard/leaderBoard.html',
+                controller: 'LeaderBoardController',
+                controllerAs: 'leaderBoard'
+            });
 
-    $urlRouterProvider.otherwise('/');
-  }
+        $urlRouterProvider.otherwise('/');
+    }
 
 })();

@@ -82,6 +82,7 @@ function play(gameStored, action) {
 }
 
 function create(playerName) {
+    console.log('Name', playerName);
     var boardGame = createGameBoard(),
         computerInitialShips = getInitializeComputerShips(utils.clone(boardGame)),
         game = new Game({
