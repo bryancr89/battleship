@@ -1,5 +1,8 @@
 # Battleship Game
 
+## Demo
+[Battleship Game](https://battleship-game-test.herokuapp.com/#/)
+
 #### Technologies
 - AngularJS
 - NodeJS
